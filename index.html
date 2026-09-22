@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Документация шаблона desktop-приложения на Python и CustomTkinter.">
+  <title>CustomTkinter Desktop App Template</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #182230;
+      --muted: #5f6b7a;
+      --paper: #f6f8fb;
+      --surface: #ffffff;
+      --line: #dbe2ea;
+      --blue: #2367c8;
+      --blue-dark: #174889;
+      --cyan: #dff4f6;
+      --code: #17212b;
+      --shadow: 0 16px 40px rgba(24, 34, 48, .08);
+      --radius: 6px;
+    }
+
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 16px/1.65 Georgia, "Times New Roman", serif;
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection { background: #cfe2fb; color: var(--ink); }
+
+    a {
+      color: var(--blue-dark);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+      transition: color .15s ease;
+    }
+    a:hover { color: var(--blue); }
+
+    :focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    .topbar :focus-visible,
+    header :focus-visible,
+    footer :focus-visible { outline-color: #9fe3ec; }
+
+    /* ---------- Верхняя полоса ---------- */
+
+    .topbar {
+      background: var(--code);
+      color: #fff;
+      padding: 12px 24px;
+      font: 600 13px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    .topbar a { color: #b8e8ef; }
+    .topbar a:hover { color: #ffffff; }
+
+    /* ---------- Шапка ---------- */
+
+    header {
+      padding: 72px 24px 64px;
+      background:
+        linear-gradient(135deg, rgba(35, 103, 200, .95), rgba(17, 56, 107, .96)),
+        repeating-linear-gradient(90deg, transparent 0 39px, rgba(255,255,255,.06) 40px);
+      color: #fff;
+    }
+
+    .hero, main { max-width: 1080px; margin: 0 auto; }
+
+    .hero h1 {
+      max-width: 760px;
+      margin: 0 0 18px;
+      font: 700 clamp(2.5rem, 6vw, 5rem)/.98 Georgia, "Times New Roman", serif;
+      letter-spacing: -.02em;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 0;
+      color: #e5f6f8;
+      font-size: 1.18rem;
+      text-wrap: pretty;
+    }
+
+    .hero .links { margin-top: 28px; }
+
+    .hero .links a {
+      display: inline-block;
+      margin: 0 10px 8px 0;
+      padding: 9px 14px;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: var(--radius);
+      color: #fff;
+      text-decoration: none;
+      font: 600 14px/1.2 ui-sans-serif, system-ui, sans-serif;
+      transition: background-color .15s ease, border-color .15s ease;
+    }
+    .hero .links a:hover {
+      color: #fff;
+      background: rgba(255,255,255,.16);
+      border-color: rgba(255,255,255,.9);
+    }
+
+    /* ---------- Основной контент ---------- */
+
+    main { padding: 42px 24px 80px; }
+
+    nav {
+      margin-bottom: 38px;
+      padding: 20px 24px;
+      background: var(--surface);
+      border-left: 5px solid var(--blue);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      box-shadow: var(--shadow);
+    }
+
+    nav strong {
+      font: 700 14px/1.2 ui-sans-serif, system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    nav ul {
+      columns: 2;
+      column-gap: 36px;
+      margin: 12px 0 0;
+      padding-left: 20px;
+    }
+    nav li { break-inside: avoid; margin: 2px 0; }
+    nav a { text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+
+    section {
+      margin: 0 0 48px;
+      scroll-margin-top: 24px;
+    }
+    section:last-child { margin-bottom: 0; }
+
+    h2 {
+      margin: 0 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+      color: var(--blue-dark);
+      font: 700 clamp(1.6rem, 1.15rem + 1.4vw, 2rem)/1.15 Georgia, "Times New Roman", serif;
+      letter-spacing: -.01em;
+      text-wrap: balance;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font: 700 1.28rem/1.25 ui-sans-serif, system-ui, sans-serif;
+      text-wrap: balance;
+    }
+
+    p { margin: 0 0 14px; }
+
+    .lead { font-size: 1.12rem; }
+
+    .note {
+      margin: 22px 0;
+      padding: 17px 20px;
+      background: var(--cyan);
+      border-left: 4px solid #35a6b5;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    /* ---------- Сетка карточек ---------- */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 22px rgba(24,34,48,.04);
+      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+    .card:hover {
+      border-color: #c3d2e4;
+      box-shadow: 0 12px 28px rgba(24,34,48,.09);
+      transform: translateY(-2px);
+    }
+    .card h3 { margin-top: 0; }
+    .card p:last-child { margin-bottom: 0; }
+
+    /* ---------- Код ---------- */
+
+    code, pre, table { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+
+    code {
+      padding: .12em .38em;
+      background: #e9eef4;
+      border-radius: 3px;
+      font-size: .88em;
+      overflow-wrap: break-word;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 16px 0;
+      padding: 18px;
+      color: #d9f7fa;
+      background: var(--code);
+      border-radius: var(--radius);
+      font-size: .88rem;
+      line-height: 1.55;
+      scrollbar-width: thin;
+      scrollbar-color: #46545f var(--code);
+    }
+
+    /* Сброс оформления для <code> внутри <pre> —
+       иначе появляется светлая плашка и «съедается» размер шрифта */
+    pre code {
+      padding: 0;
+      background: none;
+      border-radius: 0;
+      font-size: inherit;
+      color: inherit;
+      white-space: pre;
+      overflow-wrap: normal;
+    }
+
+    /* ---------- Таблицы ---------- */
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      font-size: .9rem;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eaf0f7;
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+
+    tbody tr:nth-child(even) { background: #f8fafd; }
+    tbody tr:hover { background: #eef4fb; }
+
+    /* ---------- Списки ---------- */
+
+    ul, ol { padding-left: 24px; }
+    li + li { margin-top: 4px; }
+
+    /* ---------- Подвал ---------- */
+
+    footer {
+      padding: 28px 24px;
+      color: var(--muted);
+      background: #e8edf3;
+      text-align: center;
+    }
+    footer a { color: var(--blue-dark); }
+
+    /* ---------- Адаптивность ---------- */
+
+    @media (max-width: 700px) {
+      header { padding: 52px 20px 44px; }
+      main { padding: 30px 20px 60px; }
+      nav { padding: 18px 20px; }
+      nav ul { columns: 1; }
+      .grid { grid-template-columns: 1fr; }
+      .card:hover { transform: none; }
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+      table th, table td { white-space: nowrap; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+      }
+      .card:hover { transform: none; }
+    }
+
+    /* ---------- Печать ---------- */
+
+    @media print {
+      body { background: #fff; }
+      header, .topbar { background: #fff; color: var(--ink); }
+      .hero p, .hero .links a { color: var(--ink); }
+      .hero .links, nav { display: none; }
+      a { text-decoration: none; }
+      pre {
+        color: var(--ink);
+        background: #f2f5f9;
+        border: 1px solid var(--line);
+      }
+      .card, nav { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">Документация · <a href="https://github.com/ExtaSsS4106/Customtkinter_desctop_app_template">GitHub repository</a></div>
+  <header>
+    <div class="hero">
+      <h1>CustomTkinter Desktop App Template</h1>
+      <p>Базовый шаблон настольного приложения на Python и CustomTkinter с переключением экранов, формами входа и регистрации и витриной UI-компонентов.</p>
+      <div class="links">
+        <a href="https://github.com/ExtaSsS4106/Customtkinter_desctop_app_template">Открыть репозиторий</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <nav aria-label="Содержание">
+      <strong>Содержание</strong>
+      <ul>
+        <li><a href="#about">Назначение и возможности</a></li>
+        <li><a href="#install">Установка и запуск</a></li>
+        <li><a href="#architecture">Архитектура</a></li>
+        <li><a href="#routes">Маршруты</a></li>
+        <li><a href="#forms">Формы</a></li>
+        <li><a href="#theme">Тема и компоненты</a></li>
+        <li><a href="#structure">Структура проекта</a></li>
+        <li><a href="#limits">Ограничения</a></li>
+        <li><a href="#next">Развитие</a></li>
+        <li><a href="#troubleshooting">Отладка</a></li>
+      </ul>
+    </nav>
+
+    <section id="about">
+      <h2>Назначение и возможности</h2>
+      <p class="lead">Проект предназначен как стартовая точка для небольших графических приложений. Он показывает, как разделить главное окно, экраны и общие UI-фабрики без усложнения архитектуры.</p>
+      <div class="note"><strong>Важно:</strong> это демонстрационный шаблон. Пользователи не сохраняются, API и база данных не подключены, а проверка входа использует пару <code>admin</code> / <code>admin123</code>.</div>
+      <div class="grid">
+        <div class="card"><h3>Окно</h3><p>Главное окно создаётся классом <code>App</code>, имеет стартовый размер 600×400 и поддерживает переключение страниц.</p></div>
+        <div class="card"><h3>Авторизация</h3><p>Есть отдельные формы входа и регистрации с проверкой обязательных полей и обработкой клавиши Enter.</p></div>
+        <div class="card"><h3>UI-витрина</h3><p>Демонстрационный экран показывает основные виджеты CustomTkinter, индикаторы, вкладки и переключатели темы.</p></div>
+      </div>
+    </section>
+
+    <section id="install">
+      <h2>Установка и запуск</h2>
+      <p>Требуется Python 3.10 или новее, <code>pip</code>, Tkinter и зависимости из <code>req.txt</code>.</p>
+      <h3>Linux/macOS</h3>
+      <pre><code>python -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+pip install -r req.txt
+python main.py</code></pre>
+      <h3>Windows PowerShell</h3>
+      <pre><code>python -m venv venv
+venv\\Scripts\\Activate.ps1
+pip install -r req.txt
+python main.py</code></pre>
+      <p>В Debian/Ubuntu при отсутствии Tkinter установите системный пакет:</p>
+      <pre><code>sudo apt install python3-tk</code></pre>
+      <p>Зависимости проекта:</p>
+      <pre><code>customtkinter==6.0.0
+darkdetect==0.8.0
+packaging==26.3
+pillow==12.3.0</code></pre>
+    </section>
+
+    <section id="architecture">
+      <h2>Архитектура</h2>
+      <p><code>main.py</code> создаёт <code>App</code>, вызывает <code>init_page()</code> и запускает <code>mainloop()</code>. Класс <code>App</code> из <code>conf/app.py</code> хранит маршруты, уничтожает текущую страницу и создаёт новую через <code>switch()</code>.</p>
+      <pre><code>app = App()
+app.init_page()
+app.mainloop()</code></pre>
+      <p>Каждый экран наследуется от <code>ctk.CTkFrame</code> и получает <code>master</code> и ссылку на приложение. Переход выполняется так:</p>
+      <pre><code>self.app.switch("login")
+self.app.switch("login", prefill_login=username)</code></pre>
+    </section>
+
+    <section id="routes">
+      <h2>Маршруты экранов</h2>
+      <p>Маршруты объявлены в <code>src/forms/page_register.py</code>. Стартовый маршрут сейчас равен <code>testview</code>.</p>
+      <table>
+        <thead><tr><th>Имя</th><th>Класс</th><th>Назначение</th></tr></thead>
+        <tbody>
+          <tr><td><code>testview</code></td><td><code>testview</code></td><td>Экспериментальный стартовый экран</td></tr>
+          <tr><td><code>login</code></td><td><code>Authorisation</code></td><td>Форма входа</td></tr>
+          <tr><td><code>signup</code></td><td><code>Registration</code></td><td>Форма регистрации</td></tr>
+        </tbody>
+      </table>
+      <p>Чтобы открывать вход сразу после запуска, измените <code>init_page = "testview"</code> на <code>init_page = "login"</code>.</p>
+      <p>Новый экран можно добавить в список <code>routes</code> или зарегистрировать вызовом:</p>
+      <pre><code>app.register("dashboard", Dashboard)</code></pre>
+    </section>
+
+    <section id="forms">
+      <h2>Формы входа и регистрации</h2>
+      <h3>Вход</h3>
+      <p>Класс <code>Authorisation</code> проверяет заполненность логина и пароля, затем минимальную длину пароля. При корректных демонстрационных данных он вызывает маршрут <code>dashboard</code>. Пока этот маршрут не зарегистрирован, успешный вход завершится ошибкой <code>KeyError</code>.</p>
+      <h3>Регистрация</h3>
+      <p>Класс <code>Registration</code> проверяет имя пользователя длиной от 3 символов, простой формат email, пароль длиной от 6 символов и совпадение подтверждения. После проверки данные печатаются в консоль, но не сохраняются.</p>
+      <pre><code>Логин: admin
+Пароль: admin123</code></pre>
+    </section>
+
+    <section id="theme">
+      <h2>Тема и переиспользуемые компоненты</h2>
+      <p>Файл <code>src/ui/theme.py</code> задаёт тёмный режим, синюю тему, цвета ошибок и фабрики <code>make_entry()</code>, <code>make_button()</code>, <code>make_error_label()</code>.</p>
+      <table>
+        <thead><tr><th>Константа</th><th>Значение</th><th>Назначение</th></tr></thead>
+        <tbody>
+          <tr><td><code>ENTRY_WIDTH</code></td><td>280</td><td>Ширина поля и кнопки</td></tr>
+          <tr><td><code>ENTRY_HEIGHT</code></td><td>38</td><td>Высота поля</td></tr>
+          <tr><td><code>BUTTON_HEIGHT</code></td><td>38</td><td>Высота кнопки</td></tr>
+          <tr><td><code>PAD</code></td><td>8</td><td>Базовый отступ форм</td></tr>
+        </tbody>
+      </table>
+      <p><code>ComponentsDemo</code> показывает labels, buttons, entries, checkbox, radio button, switch, slider, progress bar, combo box, option menu, textbox, segmented button и tabview. Там же доступны глобальные переключатели режима оформления и акцентного цвета.</p>
+    </section>
+
+    <section id="structure">
+      <h2>Структура проекта</h2>
+      <pre><code>.
+├── main.py                         # Точка запуска
+├── req.txt                         # Зависимости
+├── conf/
+│   ├── app.py                      # Окно и роутер
+│   └── conf.json                   # Пустой резерв конфигурации
+├── src/
+│   ├── forms/
+│   │   ├── page_register.py        # Маршруты
+│   │   ├── components_demo.py      # Витрина виджетов
+│   │   ├── test.py                 # Экран-заготовка
+│   │   └── authorisation/
+│   │       ├── authorisation.py    # Вход
+│   │       └── registration.py     # Регистрация
+│   ├── modules/api.py              # Резерв API-слоя
+│   └── ui/theme.py                 # Тема и UI-фабрики
+└── DOCS/
+    ├── README.md
+    └── index.html</code></pre>
+    </section>
+
+    <section id="limits">
+      <h2>Ограничения текущей версии</h2>
+      <ol>
+        <li>Нет базы данных и постоянного хранения пользователей.</li>
+        <li>Нет реальной авторизации и безопасного хеширования паролей.</li>
+        <li>Маршрут <code>dashboard</code> вызывается, но отсутствует в реестре.</li>
+        <li><code>prefill_login</code> передаётся в экран входа, но пока не используется.</li>
+        <li><code>api.py</code> и <code>conf.json</code> пусты.</li>
+        <li>Автоматические тесты отсутствуют.</li>
+        <li>Демонстрационный пароль находится в исходном коде и не подходит для реального приложения.</li>
+      </ol>
+    </section>
+
+    <section id="next">
+      <h2>Рекомендуемое развитие</h2>
+      <ol>
+        <li>Добавить слой доступа к SQLite или внешнему API.</li>
+        <li>Хранить только хеши паролей с помощью проверенной библиотеки.</li>
+        <li>Зарегистрировать полноценный экран <code>dashboard</code>.</li>
+        <li>Реализовать автозаполнение логина из <code>prefill_login</code>.</li>
+        <li>Вынести пользовательские настройки в конфигурацию без секретов.</li>
+        <li>Добавить тесты валидации, маршрутизации и сценариев входа.</li>
+      </ol>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Проверка и отладка</h2>
+      <p>Проверка синтаксиса:</p>
+      <pre><code>python -m compileall main.py conf src</code></pre>
+      <p>Ошибка <code>ModuleNotFoundError: customtkinter</code> означает, что не установлены зависимости или не активировано виртуальное окружение. Ошибка <code>KeyError: 'dashboard'</code> означает, что нужно добавить маршрут dashboard либо изменить переход в обработчике входа.</p>
+      <p>Служебные каталоги <code>venv/</code> и файл <code>db.sqlite3</code> уже указаны в <code>.gitignore</code>. Не добавляйте в репозиторий токены, пароли и другие секреты.</p>
+    </section>
+  </main>
+
+  <footer>
+    <a href="https://github.com/ExtaSsS4106/Customtkinter_desctop_app_template">CustomTkinter Desktop App Template</a> · документация проекта
+  </footer>
+</body>
+</html>
