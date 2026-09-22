@@ -3,10 +3,12 @@ from src.forms.page_register import routes, init_page
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("1000x500")
+        self.geometry("600x400")
         self.current = None
         self._routes = {name: cls for name, cls in routes}
         self.start_point = init_page
+        self.minsize(600, 400)     # не меньше 600×400
+        self.maxsize(1200, 900)    # не больше 1200×900
 
     def register(self, name, page_class):
         """Регистрируем страницу под именем."""
