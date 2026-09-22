@@ -1,16 +1,12 @@
 # CustomTkinter Desktop App Template
 
-[![repository](https://img.shields.io/badge/GitHub-repository-blue?logo=github)](https://github.com/ExtaSsS4106/Customtkinter_desctop_app_template)
+[![docs](https://img.shields.io/badge/docs-online-brightgreen)](https://extasss4106.github.io/Customtkinter_desctop_app_template/)
+[![GitHub](https://img.shields.io/badge/github-repo-blue?logo=github)](https://github.com/ExtaSsS4106/Customtkinter_desctop_app_template)
 
 Базовый шаблон desktop-приложения на Python и CustomTkinter. Проект содержит готовую структуру для оконного приложения, переключение экранов, формы входа и регистрации, переиспользуемые UI-компоненты, демонстрационную витрину виджетов CustomTkinter и централизованные настройки внешнего вида.
 
 > Текущая версия является учебным и стартовым шаблоном. Пользователи не сохраняются в базе данных, API не подключён, а проверка входа использует демонстрационные данные из исходного кода.
 
-## Репозиторий
-
-Исходный код проекта доступен на GitHub:
-
-<https://github.com/ExtaSsS4106/Customtkinter_desctop_app_template>
 
 ## Назначение
 
